@@ -1026,8 +1026,9 @@
             <div class="brand-icon">K</div>
             <span>KJR<span class="highlight">SEVA</span><span class="version">v2.2</span></span>
         </div>
-        <div class="sidebar-nav">
-            <div class="sidebar-nav-label">Main Navigation</div>
+        <!-- Owner Navigation Links -->
+        <div class="sidebar-nav" id="sidebarOwnerNav">
+            <div class="sidebar-nav-label">Owner Navigation</div>
             <button class="sidebar-nav-item active" data-section="dashboard" onclick="navigateTo('dashboard')">
                 <i class="fas fa-th-large"></i><span>Dashboard</span>
             </button>
@@ -1054,6 +1055,29 @@
             </button>
             <button class="sidebar-nav-item" data-section="settings" onclick="navigateTo('settings')">
                 <i class="fas fa-cog"></i><span>Settings & Cloud</span>
+            </button>
+        </div>
+
+        <!-- Staff / Employee Navigation Links -->
+        <div class="sidebar-nav" id="sidebarEmpNav" style="display:none;">
+            <div class="sidebar-nav-label">Staff Navigation</div>
+            <button class="sidebar-nav-item active" onclick="scrollToSection('empProfileDisplay'); closeMobileNav();">
+                <i class="fas fa-user-circle"></i><span>My Profile</span>
+            </button>
+            <button class="sidebar-nav-item" onclick="scrollToSection('empAddWork'); closeMobileNav();">
+                <i class="fas fa-plus-circle"></i><span>Submit Work</span>
+            </button>
+            <button class="sidebar-nav-item" onclick="scrollToSection('empWalletSection'); closeMobileNav();">
+                <i class="fas fa-wallet"></i><span>My Wallet</span>
+            </button>
+            <button class="sidebar-nav-item" onclick="scrollToSection('empWorkHistorySection'); closeMobileNav();">
+                <i class="fas fa-list-check"></i><span>My Submissions</span>
+            </button>
+            <button class="sidebar-nav-item" onclick="scrollToSection('empPayoutHistorySection'); closeMobileNav();">
+                <i class="fas fa-money-bill"></i><span>My Payouts</span>
+            </button>
+            <button class="sidebar-nav-item" onclick="openWalletPassbook(); closeMobileNav();">
+                <i class="fas fa-book"></i><span>Passbook</span>
             </button>
         </div>
         <div class="sidebar-footer">
@@ -1214,9 +1238,15 @@
             <div class="card" id="registerEmployee">
                 <div class="card-header"><h3><i class="fas fa-user-plus" style="color:var(--secondary);"></i> Register New Staff / Member</h3></div>
                 <div class="form-grid-3col">
-                    <div class="input-group"><label>Full Name <span class="required">*</span></label><input type="text" id="regFullName" placeholder="Staff Name"></div>
+                    <div class="input-group">
+                        <label>Full Name <span class="required">*</span> <span style="font-size:10px;color:var(--text-light);">(Letters only)</span></label>
+                        <input type="text" id="regFullName" placeholder="Staff Name" oninput="this.value=this.value.replace(/[^a-zA-Z\s.]/g,'')">
+                    </div>
                     <div class="input-group"><label>Email <span class="required">*</span></label><input type="email" id="regEmail" placeholder="staff@gmail.com"></div>
-                    <div class="input-group"><label>Mobile <span class="required">*</span></label><input type="tel" id="regMobile" placeholder="9876543210"></div>
+                    <div class="input-group">
+                        <label>Mobile <span class="required">*</span> <span style="font-size:10px;color:var(--text-light);">(10 digits only)</span></label>
+                        <input type="tel" id="regMobile" placeholder="10-digit mobile" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+                    </div>
                     <div class="input-group">
                         <label>Password <span class="required">*</span></label>
                         <div class="password-wrapper">
@@ -1265,8 +1295,14 @@
                         </div>
                     </div>
                     <div class="input-group"><label>Date</label><input type="date" id="ownerWorkDate"></div>
-                    <div class="input-group"><label>Customer Name</label><input type="text" id="ownerCustName" placeholder="Customer Name"></div>
-                    <div class="input-group"><label>Customer Phone (For WhatsApp Slip)</label><input type="tel" id="ownerCustPhone" placeholder="10-digit mobile number"></div>
+                    <div class="input-group">
+                        <label>Customer Name <span style="font-size:10px;color:var(--text-light);">(Letters only)</span></label>
+                        <input type="text" id="ownerCustName" placeholder="e.g. Ramesh Kumar" oninput="this.value=this.value.replace(/[^a-zA-Z\s.]/g,'')">
+                    </div>
+                    <div class="input-group">
+                        <label>Customer Phone <span style="font-size:10px;color:var(--text-light);">(Exactly 10 digits)</span></label>
+                        <input type="tel" id="ownerCustPhone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+                    </div>
                     <div class="input-group"><label>Print Copies</label><input type="number" id="ownerPrintCopies" value="0" min="0"></div>
                     <div class="input-group"><label>Scan Copies</label><input type="number" id="ownerScanCopies" value="0" min="0"></div>
                     <div class="input-group" id="manualPriceGroup" style="display:none;background:#fef3c7;border-radius:var(--radius-sm);padding:8px 12px;border:2px solid #f59e0b;">
@@ -1289,9 +1325,16 @@
                 <div class="filter-bar">
                     <button class="filter-btn active" data-filter="today" onclick="setFilter('today')">📆 Today</button>
                     <button class="filter-btn" data-filter="month" onclick="setFilter('month')">📅 Month</button>
-                    <button class="filter-btn" data-filter="year" onclick="setFilter('year')">📅 Year</button>
+                    <button class="filter-btn" data-filter="year" onclick="setFilter('year')">📈 Year</button>
                     <button class="filter-btn" data-filter="all" onclick="setFilter('all')">📋 All</button>
-                    <button class="filter-btn" data-filter="pending_approval" onclick="setFilter('pending_approval')">⏳ Pending Approval</button>
+                    <button class="filter-btn" data-filter="pending_approval" onclick="setFilter('pending_approval')">⏳ Pending</button>
+                    <div style="margin-left:auto;display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                        <input type="date" id="ownerFilterStartDate" style="width:130px;padding:4px 8px;border-radius:50px;border:1px solid var(--border-color);font-size:0.75rem;">
+                        <span style="font-size:11px;color:var(--text-secondary);">to</span>
+                        <input type="date" id="ownerFilterEndDate" style="width:130px;padding:4px 8px;border-radius:50px;border:1px solid var(--border-color);font-size:0.75rem;">
+                        <button class="btn btn-primary btn-xs" onclick="applyOwnerDateRangeFilter()" title="Filter by date range"><i class="fas fa-check"></i> Filter</button>
+                        <button class="btn btn-secondary btn-xs" onclick="clearOwnerDateRangeFilter()" title="Reset"><i class="fas fa-times"></i></button>
+                    </div>
                 </div>
                 <div class="table-wrap">
                     <table class="data-table">
@@ -1464,8 +1507,14 @@
                             <select id="empWorkSelect" size="5"></select>
                         </div>
                     </div>
-                    <div class="input-group"><label>Customer Name</label><input type="text" id="empCustName" placeholder="Customer Name"></div>
-                    <div class="input-group"><label>Customer Mobile (For WhatsApp Slip)</label><input type="tel" id="empCustPhone" placeholder="10-digit mobile"></div>
+                    <div class="input-group">
+                        <label>Customer Name <span style="font-size:10px;color:var(--text-light);">(Letters only)</span></label>
+                        <input type="text" id="empCustName" placeholder="e.g. Ramesh Kumar" oninput="this.value=this.value.replace(/[^a-zA-Z\s.]/g,'')">
+                    </div>
+                    <div class="input-group">
+                        <label>Customer Mobile <span style="font-size:10px;color:var(--text-light);">(Exactly 10 digits)</span></label>
+                        <input type="tel" id="empCustPhone" placeholder="10-digit number" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
+                    </div>
                     <div class="input-group"><label>Print Copies</label><input type="number" id="empPrintCopies" value="0" min="0"></div>
                     <div class="input-group"><label>Scan Copies</label><input type="number" id="empScanCopies" value="0" min="0"></div>
                     <div class="input-group"><label>Customer Payment Received (₹)</label><input type="number" id="empCustPayment" value="0" min="0" step="0.01"></div>
@@ -1476,7 +1525,7 @@
             </div>
 
             <!-- Staff Performance & Wallet Cards -->
-            <div class="card">
+            <div class="card" id="empWalletSection">
                 <div class="card-header">
                     <h3><i class="fas fa-wallet" style="color:var(--secondary);"></i> My Wallet Balance &amp; Earnings</h3>
                     <button class="btn btn-sm btn-primary" onclick="openWalletPassbook()"><i class="fas fa-book"></i> View Full Passbook</button>
@@ -1486,8 +1535,27 @@
             </div>
 
             <!-- Staff Work History -->
-            <div class="card">
-                <div class="card-header"><h3><i class="fas fa-list" style="color:var(--secondary);"></i> My Work Submissions</h3></div>
+            <div class="card" id="empWorkHistorySection">
+                <div class="card-header">
+                    <h3><i class="fas fa-list" style="color:var(--secondary);"></i> My Work Submissions</h3>
+                    <span class="badge badge-info" id="empWorkCountBadge">Showing: 0</span>
+                </div>
+                <!-- Staff Filter Bar (Day, Month, Year, Custom Range) -->
+                <div class="filter-bar">
+                    <button class="filter-btn active" data-empfilter="today" onclick="setEmpFilter('today')">📆 Today</button>
+                    <button class="filter-btn" data-empfilter="month" onclick="setEmpFilter('month')">📅 This Month</button>
+                    <button class="filter-btn" data-empfilter="year" onclick="setEmpFilter('year')">📈 This Year</button>
+                    <button class="filter-btn" data-empfilter="all" onclick="setEmpFilter('all')">📋 All</button>
+                    <button class="filter-btn" data-empfilter="pending" onclick="setEmpFilter('pending')">⏳ Pending</button>
+                    <button class="filter-btn" data-empfilter="approved" onclick="setEmpFilter('approved')">✅ Approved</button>
+                    <div style="margin-left:auto;display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                        <input type="date" id="empFilterStartDate" style="width:130px;padding:4px 8px;border-radius:50px;border:1px solid var(--border-color);font-size:0.75rem;">
+                        <span style="font-size:11px;color:var(--text-secondary);">to</span>
+                        <input type="date" id="empFilterEndDate" style="width:130px;padding:4px 8px;border-radius:50px;border:1px solid var(--border-color);font-size:0.75rem;">
+                        <button class="btn btn-primary btn-xs" onclick="applyEmpDateRangeFilter()" title="Filter by date range"><i class="fas fa-check"></i> Filter</button>
+                        <button class="btn btn-secondary btn-xs" onclick="clearEmpDateRangeFilter()" title="Reset"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
                 <div class="table-wrap">
                     <table class="data-table">
                         <thead><tr><th>Date</th><th>Service</th><th>My Pay</th><th>Price</th><th>Customer</th><th>Phone</th><th>Status</th><th>Receipt</th></tr></thead>
@@ -1497,7 +1565,7 @@
             </div>
 
             <!-- Staff Payout History -->
-            <div class="card">
+            <div class="card" id="empPayoutHistorySection">
                 <div class="card-header"><h3><i class="fas fa-money-bill" style="color:var(--secondary);"></i> Payments Received From Owner</h3></div>
                 <div class="table-wrap">
                     <table class="data-table">
@@ -1561,8 +1629,8 @@
                 <span class="close-modal" onclick="closeSignupModal()">&times;</span>
             </div>
             <div style="margin-bottom:8px;">
-                <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Owner Full Name <span class="required">*</span></label>
-                <input type="text" id="newOwnerName" placeholder="Your Name">
+                <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Owner Full Name <span class="required">*</span> <span style="font-size:10px;color:var(--text-light);">(Letters only)</span></label>
+                <input type="text" id="newOwnerName" placeholder="Your Name" oninput="this.value=this.value.replace(/[^a-zA-Z\s.]/g,'')">
             </div>
             <div style="margin-bottom:8px;">
                 <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Business / Shop Name <span class="required">*</span></label>
@@ -1573,8 +1641,8 @@
                 <input type="email" id="newOwnerEmail" placeholder="your-email@gmail.com">
             </div>
             <div style="margin-bottom:8px;">
-                <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Mobile Number <span class="required">*</span></label>
-                <input type="tel" id="newOwnerMobile" placeholder="9876543210">
+                <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Mobile Number <span class="required">*</span> <span style="font-size:10px;color:var(--text-light);">(10 digits only)</span></label>
+                <input type="tel" id="newOwnerMobile" placeholder="9876543210" maxlength="10" inputmode="numeric" oninput="this.value=this.value.replace(/\D/g,'').slice(0,10)">
             </div>
             <div style="margin-bottom:12px;">
                 <label style="font-size:0.7rem;font-weight:600;color:var(--text-secondary);">Portal Password <span class="required">*</span></label>
@@ -2039,11 +2107,19 @@
                 document.getElementById('pageTitleText').textContent = 'Owner Admin Dashboard';
                 document.getElementById('ownerDashboard').style.display = 'block';
                 document.getElementById('employeeDashboard').style.display = 'none';
+                const sOwner = document.getElementById('sidebarOwnerNav');
+                const sEmp = document.getElementById('sidebarEmpNav');
+                if (sOwner) sOwner.style.display = 'block';
+                if (sEmp) sEmp.style.display = 'none';
                 initOwnerDashboard();
             } else {
                 document.getElementById('pageTitleText').textContent = 'Staff Portal — ' + currentEmployee.name;
                 document.getElementById('employeeDashboard').style.display = 'block';
                 document.getElementById('ownerDashboard').style.display = 'none';
+                const sOwner = document.getElementById('sidebarOwnerNav');
+                const sEmp = document.getElementById('sidebarEmpNav');
+                if (sOwner) sOwner.style.display = 'none';
+                if (sEmp) sEmp.style.display = 'block';
                 initEmployeeDashboard();
             }
 
@@ -2243,6 +2319,16 @@
             let customerPrice = parseFloat(sel.getAttribute('data-customer')) || 0;
             let employeePayment = parseFloat(sel.getAttribute('data-employee')) || 0;
 
+            const customerName = document.getElementById('ownerCustName').value.trim();
+            const customerPhone = document.getElementById('ownerCustPhone').value.trim();
+
+            if (customerName && !/^[a-zA-Z\s.]+$/.test(customerName)) {
+                return showToast('❌ Customer Name must contain letters only (no numbers allowed)', 'error');
+            }
+            if (customerPhone && !/^\d{10}$/.test(customerPhone)) {
+                return showToast('❌ Customer mobile must be exactly 10 digits', 'error');
+            }
+
             const newEntry = {
                 id: Date.now() + Math.random(),
                 employeeId: emp.id,
@@ -2252,8 +2338,8 @@
                 customerPrice: customerPrice,
                 date: document.getElementById('ownerWorkDate').value || getTodayStr(),
                 time: getCurrentTime(),
-                customerName: document.getElementById('ownerCustName').value.trim(),
-                customerPhone: document.getElementById('ownerCustPhone').value.trim(),
+                customerName: customerName,
+                customerPhone: customerPhone,
                 printCopies: printCopies,
                 scanCopies: scanCopies,
                 customerPayment: customerPayment,
@@ -2281,6 +2367,39 @@
 
             // Sync to cloud if active
             if (cloudApiUrl) triggerManualSync();
+        }
+
+        // =============================================
+        // OWNER TABLE FILTER LOGIC (DAY, MONTH, YEAR, RANGE)
+        // =============================================
+        let ownerFilter = 'today';
+        let ownerDateRange = null;
+
+        function setFilter(filter) {
+            ownerFilter = filter;
+            ownerDateRange = null;
+            document.querySelectorAll('#workSection .filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`#workSection .filter-btn[data-filter="${filter}"]`)?.classList.add('active');
+            renderOwnerTables();
+        }
+
+        function applyOwnerDateRangeFilter() {
+            const start = document.getElementById('ownerFilterStartDate').value;
+            const end = document.getElementById('ownerFilterEndDate').value;
+            if (!start || !end) return showToast('⚠️ Select both start and end date', 'warning');
+            if (start > end) return showToast('⚠️ Start date cannot be after end date', 'warning');
+            ownerDateRange = { start, end };
+            ownerFilter = 'custom';
+            document.querySelectorAll('#workSection .filter-btn').forEach(b => b.classList.remove('active'));
+            renderOwnerTables();
+            showToast(`📆 Filtered: ${start} to ${end}`, 'info');
+        }
+
+        function clearOwnerDateRangeFilter() {
+            ownerDateRange = null;
+            document.getElementById('ownerFilterStartDate').value = '';
+            document.getElementById('ownerFilterEndDate').value = '';
+            setFilter('today');
         }
 
         function recordOwnerPayment() {
@@ -2354,7 +2473,28 @@
         }
 
         function renderOwnerTables() {
-            let filtered = currentOwner.workEntries.slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+            let filtered = currentOwner.workEntries.slice();
+
+            if (ownerDateRange) {
+                filtered = filtered.filter(e => e.date >= ownerDateRange.start && e.date <= ownerDateRange.end);
+            } else {
+                const now = new Date();
+                const todayStr = getTodayStr();
+                if (ownerFilter === 'today') {
+                    filtered = filtered.filter(e => e.date === todayStr);
+                } else if (ownerFilter === 'month') {
+                    filtered = filtered.filter(e => {
+                        const d = new Date(e.date);
+                        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                    });
+                } else if (ownerFilter === 'year') {
+                    filtered = filtered.filter(e => new Date(e.date).getFullYear() === now.getFullYear());
+                } else if (ownerFilter === 'pending_approval') {
+                    filtered = filtered.filter(e => e.approvalStatus === 'pending');
+                }
+            }
+
+            filtered.sort((a, b) => new Date(b.date) - new Date(a.date));
 
             document.getElementById('ownerEntriesBody').innerHTML = filtered.map((e, i) => `
                 <tr>
@@ -2430,6 +2570,15 @@
                 document.getElementById('regMsg').innerHTML = '<span style="color:#dc2626;">❌ Name, email and mobile required</span>';
                 return;
             }
+            if (!/^[a-zA-Z\s.]+$/.test(name)) {
+                document.getElementById('regMsg').innerHTML = '<span style="color:#dc2626;">❌ Name must contain letters only (no numbers)</span>';
+                return;
+            }
+            const cleanMobile = mobile.replace(/\D/g, '');
+            if (cleanMobile.length !== 10) {
+                document.getElementById('regMsg').innerHTML = '<span style="color:#dc2626;">❌ Mobile number must be exactly 10 digits</span>';
+                return;
+            }
 
             const photoInput = document.getElementById('regPhotoFile');
             const photoFile = photoInput && photoInput.files ? photoInput.files[0] : null;
@@ -2439,7 +2588,7 @@
                     id: 'emp_' + Date.now(),
                     name: name,
                     email: email,
-                    mobile: mobile,
+                    mobile: cleanMobile,
                     passwordHash: hashPassword(pass || '1234'),
                     department: document.getElementById('regDepartment').value,
                     designation: document.getElementById('regDesignation').value || 'Staff',
@@ -2484,9 +2633,25 @@
             }
         }
 
+        let currentEmpStatusFilter = 'all';
+
+        function filterEmployees(status) {
+            currentEmpStatusFilter = status;
+            document.querySelectorAll('#employeesSection .filter-btn').forEach(b => b.classList.remove('active'));
+            if (window.event && window.event.target) window.event.target.classList.add('active');
+            renderEmployeeList();
+        }
+
         function renderEmployeeList() {
-            document.getElementById('employeeCountDisplay').textContent = 'Total: ' + currentOwner.employees.length;
-            document.getElementById('ownerEmployeeList').innerHTML = currentOwner.employees.map(e => `
+            let list = (currentOwner && currentOwner.employees) ? currentOwner.employees : [];
+            if (currentEmpStatusFilter === 'active') {
+                list = list.filter(e => e.isActive !== false);
+            } else if (currentEmpStatusFilter === 'inactive') {
+                list = list.filter(e => e.isActive === false);
+            }
+
+            document.getElementById('employeeCountDisplay').textContent = 'Total: ' + list.length;
+            document.getElementById('ownerEmployeeList').innerHTML = list.map(e => `
                 <div class="employee-card">
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div style="display:flex;gap:12px;align-items:center;">
@@ -2497,27 +2662,74 @@
                                 <div style="font-size:10px;color:var(--text-light);">${e.designation} (${e.department})</div>
                             </div>
                         </div>
-                        <div>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <button class="btn btn-xs ${e.isActive !== false ? 'btn-secondary' : 'btn-success'}" onclick="toggleEmployeeActive('${e.id}')" title="Change status">
+                                ${e.isActive !== false ? 'Deactivate' : 'Activate'}
+                            </button>
                             <span class="badge ${e.isActive !== false ? 'badge-success' : 'badge-danger'}">
                                 ${e.isActive !== false ? '🟢 Active' : '🔴 Inactive'}
                             </span>
                         </div>
                     </div>
                 </div>
-            `).join('') || '<div class="empty-state">No staff members registered yet</div>';
+            `).join('') || '<div class="empty-state">No staff members found</div>';
+        }
+
+        function toggleEmployeeActive(id) {
+            const emp = currentOwner.employees.find(e => e.id === id);
+            if (emp) {
+                emp.isActive = (emp.isActive === false);
+                saveOwners();
+                renderEmployeeList();
+                updateOwnerSelectors();
+                showToast(`Staff member ${emp.name} is now ${emp.isActive ? 'Active' : 'Inactive'}`, 'info');
+                if (cloudApiUrl) triggerManualSync();
+            }
         }
 
         // =============================================
         // EMPLOYEE VIEW LOGIC
         // =============================================
+        let empFilter = 'today';
+        let empDateRange = null;
+
+        function setEmpFilter(filter) {
+            empFilter = filter;
+            empDateRange = null;
+            document.querySelectorAll('#employeeDashboard .filter-btn[data-empfilter]').forEach(b => b.classList.remove('active'));
+            document.querySelector(`#employeeDashboard .filter-btn[data-empfilter="${filter}"]`)?.classList.add('active');
+            renderEmployeeView();
+        }
+
+        function applyEmpDateRangeFilter() {
+            const start = document.getElementById('empFilterStartDate').value;
+            const end = document.getElementById('empFilterEndDate').value;
+            if (!start || !end) return showToast('⚠️ Select both start and end date', 'warning');
+            if (start > end) return showToast('⚠️ Start date cannot be after end date', 'warning');
+            empDateRange = { start, end };
+            empFilter = 'custom';
+            document.querySelectorAll('#employeeDashboard .filter-btn[data-empfilter]').forEach(b => b.classList.remove('active'));
+            renderEmployeeView();
+            showToast(`📆 Filtered: ${start} to ${end}`, 'info');
+        }
+
+        function clearEmpDateRangeFilter() {
+            empDateRange = null;
+            const s = document.getElementById('empFilterStartDate');
+            const e = document.getElementById('empFilterEndDate');
+            if (s) s.value = '';
+            if (e) e.value = '';
+            setEmpFilter('today');
+        }
+
         function initEmployeeDashboard() {
             if (!currentEmployee) return;
 
             // Header profile card
             document.getElementById('empProfileDisplay').innerHTML = `
                 <div style="display:flex;align-items:center;gap:14px;">
-                    <div style="width:52px;height:52px;border-radius:50%;background:var(--secondary);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;overflow:hidden;">
-                        ${currentEmployee.photoData ? `<img src="${currentEmployee.photoData}" style="width:100%;height:100%;object-fit:cover;">` : currentEmployee.name.charAt(0)}
+                    <div style="width:52px;height:52px;border-radius:50%;background:var(--secondary);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;overflow:hidden;border:2px solid var(--border-color);flex-shrink:0;">
+                        ${currentEmployee.photoData ? `<img src="${currentEmployee.photoData}" style="width:100%;height:100%;object-fit:cover;" alt="${currentEmployee.name}">` : currentEmployee.name.charAt(0)}
                     </div>
                     <div>
                         <div style="font-size:16px;font-weight:800;">${currentEmployee.name}</div>
@@ -2527,10 +2739,10 @@
                 </div>
             `;
 
-            // Owner / Shop Card (FIX: --accent variable fixed)
+            // Owner / Shop Card
             document.getElementById('empOwnerInfo').innerHTML = `
                 <div style="display:flex;align-items:center;gap:14px;">
-                    <div style="width:52px;height:52px;border-radius:var(--radius-sm);background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;">
+                    <div style="width:52px;height:52px;border-radius:var(--radius-sm);background:var(--accent);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">
                         🏢
                     </div>
                     <div>
@@ -2549,6 +2761,16 @@
                 const sel = ws.options[ws.selectedIndex];
                 if (!sel) return showToast('❌ Select a service', 'error');
 
+                const customerName = document.getElementById('empCustName').value.trim();
+                const customerPhone = document.getElementById('empCustPhone').value.trim();
+
+                if (customerName && !/^[a-zA-Z\s.]+$/.test(customerName)) {
+                    return showToast('❌ Customer Name must contain letters only (no numbers allowed)', 'error');
+                }
+                if (customerPhone && !/^\d{10}$/.test(customerPhone)) {
+                    return showToast('❌ Customer mobile must be exactly 10 digits', 'error');
+                }
+
                 const customerPayment = parseFloat(document.getElementById('empCustPayment').value) || 0;
                 const newEntry = {
                     id: Date.now() + Math.random(),
@@ -2559,8 +2781,8 @@
                     customerPrice: parseFloat(sel.getAttribute('data-customer')) || 0,
                     date: getTodayStr(),
                     time: getCurrentTime(),
-                    customerName: document.getElementById('empCustName').value.trim(),
-                    customerPhone: document.getElementById('empCustPhone').value.trim(),
+                    customerName: customerName,
+                    customerPhone: customerPhone,
                     printCopies: parseInt(document.getElementById('empPrintCopies').value) || 0,
                     scanCopies: parseInt(document.getElementById('empScanCopies').value) || 0,
                     customerPayment: customerPayment,
@@ -2572,7 +2794,10 @@
                 saveOwners();
                 renderEmployeeView();
                 showToast('✅ Work submitted! Awaiting owner approval.', 'success');
-                ['empCustName', 'empCustPhone', 'empCustPayment'].forEach(id => document.getElementById(id).value = '');
+                ['empCustName', 'empCustPhone', 'empCustPayment', 'empPrintCopies', 'empScanCopies'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = id.includes('Copies') || id.includes('Payment') ? '0' : '';
+                });
 
                 if (cloudApiUrl) triggerManualSync();
             };
@@ -2586,6 +2811,44 @@
             const totalEarned = myApprovedWork.reduce((s, w) => s + (w.employeePayment || 0), 0);
             const totalPaid = currentOwner.paymentRecords.filter(p => p.employeeId === empId).reduce((s, p) => s + p.amount, 0);
             const pendingWallet = Math.max(0, totalEarned - totalPaid);
+
+            // Filter submissions by Today, Month, Year, Custom Range, Pending, Approved
+            let filteredWork = myWork.slice();
+            const now = new Date();
+            const todayStr = getTodayStr();
+
+            if (empDateRange) {
+                filteredWork = filteredWork.filter(e => e.date >= empDateRange.start && e.date <= empDateRange.end);
+            } else {
+                if (empFilter === 'today') {
+                    filteredWork = filteredWork.filter(e => e.date === todayStr);
+                } else if (empFilter === 'month') {
+                    filteredWork = filteredWork.filter(e => {
+                        const d = new Date(e.date);
+                        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+                    });
+                } else if (empFilter === 'year') {
+                    filteredWork = filteredWork.filter(e => new Date(e.date).getFullYear() === now.getFullYear());
+                } else if (empFilter === 'pending') {
+                    filteredWork = filteredWork.filter(e => e.approvalStatus === 'pending');
+                } else if (empFilter === 'approved') {
+                    filteredWork = filteredWork.filter(e => e.approvalStatus === 'approved');
+                }
+            }
+
+            filteredWork.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            const periodApproved = filteredWork.filter(w => w.approvalStatus === 'approved');
+            const periodPending = filteredWork.filter(w => w.approvalStatus === 'pending');
+            const periodEarned = periodApproved.reduce((s, w) => s + (w.employeePayment || 0), 0);
+
+            // Update badge text
+            const badgeEl = document.getElementById('empWorkCountBadge');
+            if (badgeEl) {
+                let label = empFilter.toUpperCase();
+                if (empDateRange) label = `${empDateRange.start} to ${empDateRange.end}`;
+                badgeEl.textContent = `Showing: ${filteredWork.length} (${label}) | Period Earned: ₹${periodEarned.toFixed(2)}`;
+            }
 
             document.getElementById('empStatsGrid').innerHTML = `
                 <div class="stats-grid">
@@ -2602,17 +2865,17 @@
                     <div class="stat-card">
                         <span class="stat-icon">🏆</span>
                         <div class="stat-value purple">₹${totalEarned.toFixed(2)}</div>
-                        <div class="stat-label">Total Earned</div>
+                        <div class="stat-label">Total Earned (All-Time)</div>
                     </div>
                     <div class="stat-card">
                         <span class="stat-icon">📋</span>
                         <div class="stat-value">${myWork.length}</div>
-                        <div class="stat-label">Jobs Done</div>
+                        <div class="stat-label">Total Jobs Done</div>
                     </div>
                 </div>
             `;
 
-            document.getElementById('empEntriesBody').innerHTML = myWork.slice().reverse().map(e => `
+            document.getElementById('empEntriesBody').innerHTML = filteredWork.map(e => `
                 <tr>
                     <td>${e.date}</td>
                     <td><strong>${e.workName}</strong></td>
@@ -2622,10 +2885,11 @@
                     <td>${e.customerPhone || '—'}</td>
                     <td><span class="approval-badge ${e.approvalStatus}">${e.approvalStatus}</span></td>
                     <td>
-                        <button class="btn btn-secondary btn-xs" onclick="printReceipt('${e.id}')"><i class="fas fa-print"></i></button>
+                        <button class="btn btn-secondary btn-xs" onclick="printReceipt('${e.id}')" title="Print Slip"><i class="fas fa-print"></i></button>
+                        ${e.customerPhone ? `<button class="btn btn-success btn-xs" onclick="sendWhatsAppSlip('${e.id}')" title="WhatsApp Slip"><i class="fab fa-whatsapp"></i></button>` : ''}
                     </td>
                 </tr>
-            `).join('') || '<tr><td colspan="8" style="text-align:center;padding:20px;">No submissions yet</td></tr>';
+            `).join('') || `<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--text-light);"><i class="fas fa-inbox" style="font-size:24px;display:block;margin-bottom:6px;"></i>No work submissions found for selected filter (${empFilter})</td></tr>`;
 
             document.getElementById('empPayHistoryBody').innerHTML = currentOwner.paymentRecords.filter(p => p.employeeId === empId).slice().reverse().map(p => `
                 <tr>
@@ -2637,6 +2901,110 @@
                     <td>${p.note}</td>
                 </tr>
             `).join('') || '<tr><td colspan="6" style="text-align:center;padding:20px;">No payment records yet</td></tr>';
+
+            // Render 7-day staff earnings chart
+            const chartCanvas = document.getElementById('empEarningChart');
+            if (chartCanvas && typeof Chart !== 'undefined') {
+                const last7Days = [];
+                const dailyEarnMap = {};
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    const ds = d.toISOString().split('T')[0];
+                    last7Days.push(ds);
+                    dailyEarnMap[ds] = 0;
+                }
+                myApprovedWork.forEach(w => {
+                    if (dailyEarnMap[w.date] !== undefined) {
+                        dailyEarnMap[w.date] += (w.employeePayment || 0);
+                    }
+                });
+                const chartData = last7Days.map(d => dailyEarnMap[d]);
+                const chartLabels = last7Days.map(d => d.slice(5));
+
+                if (empEarningChart) {
+                    try { empEarningChart.destroy(); } catch (e) {}
+                }
+                empEarningChart = new Chart(chartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'Daily Earnings (₹)',
+                            data: chartData,
+                            backgroundColor: 'rgba(44, 159, 110, 0.75)',
+                            borderColor: '#2c9f6e',
+                            borderWidth: 1.5,
+                            borderRadius: 4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(0,0,0,0.05)' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        }
+
+        function openEmployeeAttendance() {
+            if (!currentEmployee) return;
+            const today = getTodayStr();
+            const time = getCurrentTime();
+            if (!currentOwner.attendance) currentOwner.attendance = [];
+            const existing = currentOwner.attendance.find(a => a.employeeId === currentEmployee.id && a.date === today);
+            
+            if (existing) {
+                if (existing.checkOut) {
+                    showToast(`⏰ Attendance already completed for today (${existing.checkIn} - ${existing.checkOut})`, 'info');
+                } else {
+                    existing.checkOut = time;
+                    saveOwners();
+                    showToast(`✅ Checked OUT at ${time}! Shift complete.`, 'success');
+                    if (cloudApiUrl) triggerManualSync();
+                }
+            } else {
+                currentOwner.attendance.push({
+                    id: Date.now(),
+                    employeeId: currentEmployee.id,
+                    employeeName: currentEmployee.name,
+                    date: today,
+                    checkIn: time,
+                    checkOut: null,
+                    status: 'Present'
+                });
+                saveOwners();
+                showToast(`✅ Checked IN at ${time}! Shift started.`, 'success');
+                if (cloudApiUrl) triggerManualSync();
+            }
+        }
+
+        function openEmployeeLeave() {
+            if (!currentEmployee) return;
+            const reason = prompt('Enter Leave Reason (e.g. Medical, Urgent Personal Work):');
+            if (!reason) return;
+            const days = prompt('Enter number of leave days:', '1');
+            if (!days || isNaN(days)) return;
+
+            if (!currentOwner.leaveRequests) currentOwner.leaveRequests = [];
+            currentOwner.leaveRequests.push({
+                id: Date.now(),
+                employeeId: currentEmployee.id,
+                employeeName: currentEmployee.name,
+                startDate: getTodayStr(),
+                days: parseInt(days),
+                reason: reason,
+                status: 'pending'
+            });
+            saveOwners();
+            showToast('✅ Leave request submitted to Owner for approval!', 'success');
+            if (cloudApiUrl) triggerManualSync();
         }
 
         // =============================================
@@ -2801,6 +3169,15 @@
 
             if (!name || !business || !email || !mobile || !password) {
                 msg.innerHTML = '<span style="color:#dc2626;">❌ All fields are required</span>';
+                return;
+            }
+            if (!/^[a-zA-Z\s.]+$/.test(name)) {
+                msg.innerHTML = '<span style="color:#dc2626;">❌ Owner name must contain letters only (no numbers)</span>';
+                return;
+            }
+            const cleanMobile = mobile.replace(/\D/g, '');
+            if (cleanMobile.length !== 10) {
+                msg.innerHTML = '<span style="color:#dc2626;">❌ Mobile number must be exactly 10 digits</span>';
                 return;
             }
             if (password.length < 4) {
