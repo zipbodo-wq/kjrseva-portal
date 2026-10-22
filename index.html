@@ -845,16 +845,80 @@
                 padding: 10px 12px !important;
             }
 
-            /* 6. Touch-Friendly Button Sizes */
+            /* 6. Touch-Friendly Button Sizes & Layout on Mobile */
+            .btn {
+                min-height: 44px !important;
+                font-size: 14px !important;
+                padding: 10px 16px !important;
+                touch-action: manipulation;
+            }
             .btn-xs {
-                padding: 6px 10px !important;
-                font-size: 0.72rem !important;
-                min-height: 32px;
+                padding: 7px 12px !important;
+                font-size: 0.78rem !important;
+                min-height: 38px !important;
+                min-width: 38px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
             }
             .btn-sm {
-                padding: 7px 12px !important;
-                font-size: 0.75rem !important;
-                min-height: 36px;
+                padding: 8px 14px !important;
+                font-size: 0.82rem !important;
+                min-height: 40px !important;
+                display: inline-flex !important;
+                align-items: center !important;
+            }
+            #empSubmitWorkBtn, #ownerAddWorkBtn, #registerEmpBtn, #recordPaymentBtn {
+                width: 100% !important;
+                min-height: 50px !important;
+                font-size: 16px !important;
+                font-weight: 700 !important;
+                justify-content: center !important;
+                margin-top: 10px !important;
+            }
+            /* Smooth Horizontal Touch-Scroll for Filter Bar on Mobile */
+            .filter-bar {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                gap: 6px !important;
+                padding: 8px 2px !important;
+                scrollbar-width: none;
+            }
+            .filter-bar::-webkit-scrollbar { display: none; }
+            .filter-btn {
+                flex-shrink: 0 !important;
+                min-height: 38px !important;
+                padding: 8px 14px !important;
+                font-size: 13px !important;
+            }
+
+            /* Touch-Optimized Catalog Selector & Category Pills for Mobile */
+            .service-touch-card {
+                min-height: 52px !important;
+                padding: 12px 14px !important;
+                border-radius: var(--radius-sm) !important;
+            }
+            .service-touch-card .card-title {
+                font-size: 14px !important;
+            }
+            .cat-pill {
+                min-height: 38px !important;
+                padding: 7px 14px !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+            }
+            .service-picker-touch-list {
+                max-height: 250px !important;
+                gap: 8px !important;
+            }
+            .selected-service-banner {
+                padding: 12px 14px !important;
+                font-size: 13px !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
             }
 
             /* 7. Mobile Table Touch-Scroll Indicator */
@@ -973,31 +1037,123 @@
         }
         .employee-card .avatar img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* Touch-Friendly Visual Catalog Picker */
         .service-select-wrapper { position: relative; width: 100%; }
         .service-select-wrapper .search-input {
             width: 100%;
             padding: 10px 14px;
-            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            border-radius: var(--radius-sm);
             border: 2px solid var(--border-color);
-            border-bottom: none;
-            font-size: 0.85rem;
+            font-size: 0.88rem;
             transition: var(--transition);
             background: var(--bg-card);
             color: var(--text-primary);
         }
-        .service-select-wrapper select {
-            width: 100%;
-            min-height: 130px;
-            max-height: 180px;
-            padding: 4px 2px;
-            border: 2px solid var(--border-color);
-            border-top: 1px solid var(--border-color);
-            border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-            font-size: 0.82rem;
+        .service-category-pills {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding: 6px 0;
+            margin: 6px 0;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+        .service-category-pills::-webkit-scrollbar { display: none; }
+        .cat-pill {
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            border: 1.5px solid var(--border-color);
             background: var(--bg-card);
-            color: var(--text-primary);
-            overflow-y: auto;
+            color: var(--text-secondary);
+            white-space: nowrap;
             cursor: pointer;
+            transition: var(--transition);
+            min-height: 32px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .cat-pill:hover { background: rgba(0,0,0,0.05); }
+        .cat-pill.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        .service-picker-touch-list {
+            max-height: 220px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            padding: 6px;
+            background: var(--bg-card);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .service-touch-card {
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-surface);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            transition: all 0.15s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 48px;
+        }
+        .service-touch-card:hover {
+            border-color: var(--secondary);
+            background: rgba(44,159,110,0.06);
+        }
+        .service-touch-card:active {
+            transform: scale(0.98);
+        }
+        .service-touch-card.selected {
+            border-color: var(--secondary);
+            background: rgba(44,159,110,0.12);
+            box-shadow: 0 0 0 2px var(--secondary);
+        }
+        .service-touch-card .card-left {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            text-align: left;
+        }
+        .service-touch-card .card-title {
+            font-weight: 700;
+            font-size: 0.88rem;
+            color: var(--text-primary);
+        }
+        .service-touch-card .card-cat {
+            font-size: 0.65rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .service-touch-card .card-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .selected-service-banner {
+            margin-top: 8px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            background: rgba(44,159,110,0.1);
+            border: 1.5px solid var(--secondary);
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .tabs { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 12px; }
@@ -1270,9 +1426,12 @@
 
             <!-- Employees List -->
             <div class="card" id="employeesSection">
-                <div class="card-header">
+                <div class="card-header" style="flex-wrap:wrap;gap:8px;">
                     <h3><i class="fas fa-users" style="color:var(--secondary);"></i> Active Staff &amp; Team Members</h3>
-                    <span class="badge badge-info" id="employeeCountDisplay">Total: 0</span>
+                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                        <button class="btn btn-sm btn-success" onclick="openStaffBroadcastModal()" title="Send WhatsApp notification to staff"><i class="fab fa-whatsapp"></i> Staff WhatsApp Hub</button>
+                        <span class="badge badge-info" id="employeeCountDisplay">Total: 0</span>
+                    </div>
                 </div>
                 <div class="filter-bar">
                     <button class="filter-btn active" onclick="filterEmployees('all')">📋 All</button>
@@ -1290,8 +1449,20 @@
                     <div class="input-group" style="grid-column:span 2;">
                         <label>Service (Odisha Cyber / CSC Catalog) <span class="required">*</span></label>
                         <div class="service-select-wrapper">
-                            <input type="text" id="serviceSearchInput" class="search-input" placeholder="🔍 Search services (e.g. PAN, Krushak, Scholarship, DL, Print)..." onkeyup="filterServiceOptions()">
-                            <select id="ownerWorkSelect" size="5"></select>
+                            <div style="position:relative;">
+                                <input type="text" id="serviceSearchInput" class="search-input" placeholder="🔍 Type to search services (PAN, Krushak, DL, Print)..." oninput="filterServiceOptions()">
+                                <button type="button" onclick="clearOwnerServiceSearch()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-light);font-size:14px;padding:4px;"><i class="fas fa-times-circle"></i></button>
+                            </div>
+                            <div class="service-category-pills" id="ownerCategoryPills">
+                                <button type="button" class="cat-pill active" onclick="setOwnerCategoryFilter('all')">All</button>
+                                <button type="button" class="cat-pill" onclick="setOwnerCategoryFilter('Print & Photo')">🖨️ Print/Photo</button>
+                                <button type="button" class="cat-pill" onclick="setOwnerCategoryFilter('Certificate')">📜 Certificate</button>
+                                <button type="button" class="cat-pill" onclick="setOwnerCategoryFilter('Government')">🏛️ Govt / Odisha</button>
+                                <button type="button" class="cat-pill" onclick="setOwnerCategoryFilter('CSC')">💳 Banking / CSC</button>
+                            </div>
+                            <div class="service-picker-touch-list" id="ownerServicePickerList"></div>
+                            <select id="ownerWorkSelect" style="display:none;"></select>
+                            <div id="ownerSelectedServiceBanner" class="selected-service-banner" style="display:none;"></div>
                         </div>
                     </div>
                     <div class="input-group"><label>Date</label><input type="date" id="ownerWorkDate"></div>
@@ -1364,7 +1535,7 @@
                     <h4 style="margin-bottom:8px;color:var(--text-primary);font-size:13px;">Payout History</h4>
                     <div class="table-wrap">
                         <table class="data-table">
-                            <thead><tr><th>Date</th><th>Staff Member</th><th>Amount</th><th>Type</th><th>Mode</th><th>Ref</th><th>Note</th></tr></thead>
+                            <thead><tr><th>Date</th><th>Staff Member</th><th>Amount</th><th>Type</th><th>Mode</th><th>Ref</th><th>WhatsApp Receipt</th></tr></thead>
                             <tbody id="ownerPaymentBody"></tbody>
                         </table>
                     </div>
@@ -1481,6 +1652,7 @@
 
         <!-- ===== EMPLOYEE / STAFF DASHBOARD ===== -->
         <div id="employeeDashboard">
+            <div id="empMobileAlertBanner" style="display:none;margin-bottom:16px;"></div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
                 <div class="card" id="empProfileDisplay"></div>
                 <div class="card" id="empOwnerInfo"></div>
@@ -1501,10 +1673,22 @@
                 <div class="card-header"><h3><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Register Completed Customer Work</h3></div>
                 <div class="form-grid">
                     <div class="input-group" style="grid-column:span 2;">
-                        <label>Select Service <span class="required">*</span></label>
+                        <label>Select Service from Catalog <span class="required">*</span></label>
                         <div class="service-select-wrapper">
-                            <input type="text" id="empServiceSearchInput" class="search-input" placeholder="🔍 Search service catalog..." onkeyup="filterEmpServiceOptions()">
-                            <select id="empWorkSelect" size="5"></select>
+                            <div style="position:relative;">
+                                <input type="text" id="empServiceSearchInput" class="search-input" placeholder="🔍 Type to search 80+ Seva services..." oninput="filterEmpServiceOptions()">
+                                <button type="button" onclick="clearEmpServiceSearch()" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text-light);font-size:14px;padding:4px;"><i class="fas fa-times-circle"></i></button>
+                            </div>
+                            <div class="service-category-pills" id="empCategoryPills">
+                                <button type="button" class="cat-pill active" onclick="setEmpCategoryFilter('all')">All</button>
+                                <button type="button" class="cat-pill" onclick="setEmpCategoryFilter('Print & Photo')">🖨️ Print/Photo</button>
+                                <button type="button" class="cat-pill" onclick="setEmpCategoryFilter('Certificate')">📜 Certificate</button>
+                                <button type="button" class="cat-pill" onclick="setEmpCategoryFilter('Government')">🏛️ Govt / Odisha</button>
+                                <button type="button" class="cat-pill" onclick="setEmpCategoryFilter('CSC')">💳 Banking / CSC</button>
+                            </div>
+                            <div class="service-picker-touch-list" id="empServicePickerList"></div>
+                            <select id="empWorkSelect" style="display:none;"></select>
+                            <div id="empSelectedServiceBanner" class="selected-service-banner" style="display:none;"></div>
                         </div>
                     </div>
                     <div class="input-group">
@@ -1617,6 +1801,49 @@
             <div style="max-height:300px;overflow-y:auto;" id="passbookList"></div>
             <div style="text-align:right;margin-top:14px;">
                 <button class="btn btn-secondary" onclick="closeWalletPassbook()">Close</button>
+            </div>
+        </div>
+    <!-- ===== STAFF WHATSAPP NOTIFICATION & BROADCAST HUB MODAL ===== -->
+    <div id="staffBroadcastModal" class="modal">
+        <div class="modal-content" style="max-width:560px;">
+            <div class="modal-header">
+                <h2><i class="fab fa-whatsapp" style="color:#25d366;"></i> Staff WhatsApp Hub &amp; Broadcast</h2>
+                <span class="close-modal" onclick="closeStaffBroadcastModal()">&times;</span>
+            </div>
+            
+            <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5;">
+                Send shop notices, payout alerts, or task reminders to all staff WhatsApp numbers with 1 click.
+            </p>
+
+            <!-- Quick Template Selector -->
+            <div style="margin-bottom:10px;">
+                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">Quick Message Templates</label>
+                <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="applyStaffMsgTemplate('notice')">📢 Daily Notice</button>
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="applyStaffMsgTemplate('payout')">💰 Wallet Payout</button>
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="applyStaffMsgTemplate('timing')">⏰ Duty Timing</button>
+                    <button type="button" class="btn btn-secondary btn-xs" onclick="applyStaffMsgTemplate('bonus')">🏆 Bonus / Target</button>
+                </div>
+            </div>
+
+            <!-- Message Textarea -->
+            <div style="margin-bottom:14px;">
+                <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">WhatsApp Broadcast Message</label>
+                <textarea id="staffBroadcastMsg" rows="3" style="margin-top:4px;font-size:13px;" placeholder="Type your WhatsApp notification message here..."></textarea>
+            </div>
+
+            <!-- Staff Contacts List with 1-click WhatsApp buttons -->
+            <div style="margin-bottom:14px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                    <label style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;">Registered Staff Directory</label>
+                    <button class="btn btn-primary btn-xs" onclick="copyAllStaffMobiles()"><i class="fas fa-copy"></i> Copy All Mobiles</button>
+                </div>
+                <div id="staffBroadcastList" style="max-height:220px;overflow-y:auto;border:1.5px solid var(--border-color);border-radius:var(--radius-sm);padding:6px;background:var(--bg-surface);display:flex;flex-direction:column;gap:6px;"></div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--border-color);flex-wrap:wrap;gap:8px;">
+                <button class="btn btn-secondary btn-sm" onclick="exportStaffContacts()"><i class="fas fa-file-export"></i> Export Staff Contacts (CSV)</button>
+                <button class="btn btn-secondary btn-sm" onclick="closeStaffBroadcastModal()">Close</button>
             </div>
         </div>
     </div>
@@ -2242,28 +2469,194 @@
         }
 
         // =============================================
-        // MOBILE-SAFE SERVICE FILTERING (FIX FOR iOS/ANDROID)
+        // MOBILE-SAFE TOUCH SERVICE FILTERING & CATALOG PICKER
         // =============================================
-        function filterServiceOptions() {
-            const query = document.getElementById('serviceSearchInput').value.toLowerCase().trim();
-            const sel = document.getElementById('ownerWorkSelect');
-            if (!sel) return;
+        let ownerSelectedCategory = 'all';
+        let empSelectedCategory = 'all';
 
-            const filtered = servicesCatalog.filter(s => s.name.toLowerCase().includes(query) || s.category.toLowerCase().includes(query));
+        function setOwnerCategoryFilter(cat) {
+            ownerSelectedCategory = cat;
+            document.querySelectorAll('#ownerCategoryPills .cat-pill').forEach(p => p.classList.remove('active'));
+            if (window.event && window.event.target) window.event.target.classList.add('active');
+            filterServiceOptions();
+        }
+
+        function setEmpCategoryFilter(cat) {
+            empSelectedCategory = cat;
+            document.querySelectorAll('#empCategoryPills .cat-pill').forEach(p => p.classList.remove('active'));
+            if (window.event && window.event.target) window.event.target.classList.add('active');
+            filterEmpServiceOptions();
+        }
+
+        function clearOwnerServiceSearch() {
+            const inp = document.getElementById('serviceSearchInput');
+            if (inp) inp.value = '';
+            filterServiceOptions();
+        }
+
+        function clearEmpServiceSearch() {
+            const inp = document.getElementById('empServiceSearchInput');
+            if (inp) inp.value = '';
+            filterEmpServiceOptions();
+        }
+
+        function filterServiceOptions() {
+            const query = (document.getElementById('serviceSearchInput')?.value || '').toLowerCase().trim();
+            const listContainer = document.getElementById('ownerServicePickerList');
+            const sel = document.getElementById('ownerWorkSelect');
+            if (!listContainer || !sel) return;
+
+            let filtered = servicesCatalog.filter(s => {
+                const matchCat = (ownerSelectedCategory === 'all' || (s.category && s.category.toLowerCase().includes(ownerSelectedCategory.toLowerCase())));
+                const matchQuery = !query || s.name.toLowerCase().includes(query) || (s.category && s.category.toLowerCase().includes(query));
+                return matchCat && matchQuery;
+            });
+
+            // Update underlying select
             sel.innerHTML = filtered.map(s => 
                 `<option value="${s.name}" data-customer="${s.customerPrice}" data-employee="${s.employeePayment}">${s.name} - ₹${s.customerPrice} | ₹${s.employeePayment}</option>`
             ).join('') + `<option value="OTHER" data-customer="0" data-employee="0">✏️ OTHER (Custom Price)</option>`;
+
+            if (filtered.length > 0 && (!sel.value || !filtered.some(s => s.name === sel.value))) {
+                sel.value = filtered[0].name;
+            }
+
+            // Update touch cards
+            listContainer.innerHTML = filtered.map((s) => {
+                const isSelected = (sel.value === s.name);
+                return `
+                <div class="service-touch-card ${isSelected ? 'selected' : ''}" onclick="selectOwnerTouchService('${s.name.replace(/'/g, "\\'")}')">
+                    <div class="card-left">
+                        <span class="card-title">${s.name}</span>
+                        <span class="card-cat">${s.category || 'General'}</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge badge-success">₹${s.customerPrice}</span>
+                        <span class="badge badge-info">Pay: ₹${s.employeePayment}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                    </div>
+                </div>
+            `;
+            }).join('') + `
+                <div class="service-touch-card ${sel.value === 'OTHER' ? 'selected' : ''}" onclick="selectOwnerTouchService('OTHER')">
+                    <div class="card-left">
+                        <span class="card-title">✏️ OTHER (Custom Price)</span>
+                        <span class="card-cat">Manual Pricing</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge badge-warning">Custom</span>
+                        ${sel.value === 'OTHER' ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                    </div>
+                </div>
+            `;
+
+            updateOwnerServiceBanner();
+        }
+
+        function selectOwnerTouchService(name) {
+            const sel = document.getElementById('ownerWorkSelect');
+            if (!sel) return;
+            sel.value = name;
+            document.querySelectorAll('#ownerServicePickerList .service-touch-card').forEach(c => {
+                const title = c.querySelector('.card-title')?.textContent.trim() || '';
+                const isSelected = (title === name || (name === 'OTHER' && title.includes('OTHER')));
+                c.classList.toggle('selected', isSelected);
+                let checkIcon = c.querySelector('.fa-check-circle');
+                if (isSelected && !checkIcon) {
+                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>');
+                } else if (!isSelected && checkIcon) {
+                    checkIcon.remove();
+                }
+            });
+            const manualGroup = document.getElementById('manualPriceGroup');
+            if (manualGroup) manualGroup.style.display = (name === 'OTHER' ? 'block' : 'none');
+            updateOwnerServiceBanner();
+        }
+
+        function updateOwnerServiceBanner() {
+            const sel = document.getElementById('ownerWorkSelect');
+            const banner = document.getElementById('ownerSelectedServiceBanner');
+            if (!sel || !banner) return;
+            const chosen = sel.options[sel.selectedIndex];
+            if (chosen && chosen.value) {
+                banner.style.display = 'flex';
+                banner.innerHTML = `<span><i class="fas fa-check-circle"></i> Selected: <strong>${chosen.value}</strong></span> <span>Cust: ₹${chosen.getAttribute('data-customer') || 0} | Staff: ₹${chosen.getAttribute('data-employee') || 0}</span>`;
+            } else {
+                banner.style.display = 'none';
+            }
         }
 
         function filterEmpServiceOptions() {
-            const query = document.getElementById('empServiceSearchInput').value.toLowerCase().trim();
+            const query = (document.getElementById('empServiceSearchInput')?.value || '').toLowerCase().trim();
+            const listContainer = document.getElementById('empServicePickerList');
             const sel = document.getElementById('empWorkSelect');
-            if (!sel) return;
+            if (!listContainer || !sel) return;
 
-            const filtered = servicesCatalog.filter(s => s.name.toLowerCase().includes(query) || s.category.toLowerCase().includes(query));
+            let filtered = servicesCatalog.filter(s => {
+                const matchCat = (empSelectedCategory === 'all' || (s.category && s.category.toLowerCase().includes(empSelectedCategory.toLowerCase())));
+                const matchQuery = !query || s.name.toLowerCase().includes(query) || (s.category && s.category.toLowerCase().includes(query));
+                return matchCat && matchQuery;
+            });
+
+            // Update underlying select
             sel.innerHTML = filtered.map(s => 
                 `<option value="${s.name}" data-customer="${s.customerPrice}" data-employee="${s.employeePayment}">${s.name} - ₹${s.customerPrice} | ₹${s.employeePayment}</option>`
             ).join('');
+
+            if (filtered.length > 0 && (!sel.value || !filtered.some(s => s.name === sel.value))) {
+                sel.value = filtered[0].name;
+            }
+
+            // Update touch cards
+            listContainer.innerHTML = filtered.map((s) => {
+                const isSelected = (sel.value === s.name);
+                return `
+                <div class="service-touch-card ${isSelected ? 'selected' : ''}" onclick="selectEmpTouchService('${s.name.replace(/'/g, "\\'")}')">
+                    <div class="card-left">
+                        <span class="card-title">${s.name}</span>
+                        <span class="card-cat">${s.category || 'General'}</span>
+                    </div>
+                    <div class="card-right">
+                        <span class="badge badge-success">₹${s.customerPrice}</span>
+                        <span class="badge badge-info">Earn: ₹${s.employeePayment}</span>
+                        ${isSelected ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                    </div>
+                </div>
+            `;
+            }).join('') || '<div style="padding:14px;text-align:center;color:var(--text-light);font-size:13px;">No matching services found</div>';
+
+            updateEmpServiceBanner();
+        }
+
+        function selectEmpTouchService(name) {
+            const sel = document.getElementById('empWorkSelect');
+            if (!sel) return;
+            sel.value = name;
+            document.querySelectorAll('#empServicePickerList .service-touch-card').forEach(c => {
+                const title = c.querySelector('.card-title')?.textContent.trim() || '';
+                const isSelected = (title === name);
+                c.classList.toggle('selected', isSelected);
+                let checkIcon = c.querySelector('.fa-check-circle');
+                if (isSelected && !checkIcon) {
+                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>');
+                } else if (!isSelected && checkIcon) {
+                    checkIcon.remove();
+                }
+            });
+            updateEmpServiceBanner();
+        }
+
+        function updateEmpServiceBanner() {
+            const sel = document.getElementById('empWorkSelect');
+            const banner = document.getElementById('empSelectedServiceBanner');
+            if (!sel || !banner) return;
+            const chosen = sel.options[sel.selectedIndex];
+            if (chosen && chosen.value) {
+                banner.style.display = 'flex';
+                banner.innerHTML = `<span><i class="fas fa-check-circle"></i> Selected: <strong>${chosen.value}</strong></span> <span>Price: ₹${chosen.getAttribute('data-customer') || 0} | Your Earning: ₹${chosen.getAttribute('data-employee') || 0}</span>`;
+            } else {
+                banner.style.display = 'none';
+            }
         }
 
         // =============================================
@@ -2434,6 +2827,15 @@
             document.getElementById('paymentAmount').value = '';
             document.getElementById('paymentRef').value = '';
 
+            const cleanPhone = (emp.mobile || '').replace(/\D/g, '').slice(-10);
+            if (cleanPhone.length === 10) {
+                setTimeout(() => {
+                    if (confirm(`✅ Payout of ₹${amt.toFixed(2)} recorded for ${emp.name}!\n\n📲 Send WhatsApp payment receipt to ${emp.name} (+91 ${cleanPhone})?`)) {
+                        sendWhatsAppPaymentVoucher(newPayment, emp);
+                    }
+                }, 150);
+            }
+
             if (cloudApiUrl) triggerManualSync();
         }
 
@@ -2522,7 +2924,10 @@
                 </tr>
             `).join('') || '<tr><td colspan="13" style="text-align:center;padding:20px;">No work entries yet</td></tr>';
 
-            document.getElementById('ownerPaymentBody').innerHTML = currentOwner.paymentRecords.slice().reverse().map(p => `
+            document.getElementById('ownerPaymentBody').innerHTML = currentOwner.paymentRecords.slice().reverse().map(p => {
+                const emp = currentOwner.employees.find(e => e.id === p.employeeId);
+                const cleanPhone = emp ? (emp.mobile || '').replace(/\D/g, '').slice(-10) : '';
+                return `
                 <tr>
                     <td>${p.date}</td>
                     <td><strong>${p.employeeName}</strong></td>
@@ -2530,9 +2935,14 @@
                     <td><span class="badge badge-info">${p.type}</span></td>
                     <td>${p.mode}</td>
                     <td>${p.reference}</td>
-                    <td>${p.note}</td>
+                    <td>
+                        ${cleanPhone.length === 10 ? `
+                            <button class="btn btn-success btn-xs" onclick="sendWhatsAppPaymentReceiptById('${p.id}')" title="Send WhatsApp Receipt"><i class="fab fa-whatsapp"></i> Slip</button>
+                        ` : '<span style="font-size:11px;color:var(--text-light);">-</span>'}
+                    </td>
                 </tr>
-            `).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;">No payout records</td></tr>';
+            `;
+            }).join('') || '<tr><td colspan="7" style="text-align:center;padding:20px;">No payout records</td></tr>';
         }
 
         function approveWork(id) {
@@ -2546,6 +2956,16 @@
                 renderFinancialSummary();
                 showToast('✅ Work Approved & Staff Wallet Credited!', 'success');
                 if (cloudApiUrl) triggerManualSync();
+
+                const emp = currentOwner.employees.find(e => e.id === entry.employeeId);
+                const cleanPhone = emp ? (emp.mobile || '').replace(/\D/g, '').slice(-10) : '';
+                if (cleanPhone.length === 10) {
+                    setTimeout(() => {
+                        if (confirm(`✅ Work approved for ${emp.name}!\n\n📲 Send WhatsApp approval notification to ${emp.name} (+91 ${cleanPhone})?`)) {
+                            sendWhatsAppWorkApproval(entry, emp);
+                        }
+                    }, 150);
+                }
             }
         }
 
@@ -2651,18 +3071,31 @@
             }
 
             document.getElementById('employeeCountDisplay').textContent = 'Total: ' + list.length;
-            document.getElementById('ownerEmployeeList').innerHTML = list.map(e => `
+            document.getElementById('ownerEmployeeList').innerHTML = list.map(e => {
+                const cleanPhone = (e.mobile || '').replace(/\D/g, '').slice(-10);
+                const hasValidPhone = cleanPhone.length === 10;
+                return `
                 <div class="employee-card">
-                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
                         <div style="display:flex;gap:12px;align-items:center;">
                             <div class="avatar">${e.photoData ? `<img src="${e.photoData}" alt="${e.name}">` : e.name.charAt(0)}</div>
                             <div>
                                 <strong style="font-size:15px;">${e.name}</strong>
-                                <div style="font-size:11px;color:var(--text-secondary);">📧 ${e.email} | 📱 ${e.mobile}</div>
-                                <div style="font-size:10px;color:var(--text-light);">${e.designation} (${e.department})</div>
+                                <div style="font-size:11px;color:var(--text-secondary);">
+                                    📧 ${e.email} | 📱 ${hasValidPhone ? `<span style="color:#16a34a;font-weight:700;">+91 ${cleanPhone}</span>` : '<span style="color:#dc2626;font-weight:600;">No 10-digit Mobile</span>'}
+                                </div>
+                                <div style="font-size:10px;color:var(--text-light);">${e.designation || 'Staff'} (${e.department || 'General'})</div>
                             </div>
                         </div>
-                        <div style="display:flex;gap:8px;align-items:center;">
+                        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                            ${hasValidPhone ? `
+                                <button class="btn btn-success btn-xs" onclick="sendWhatsAppToStaff('${e.id}')" title="Chat on WhatsApp">
+                                    <i class="fab fa-whatsapp"></i> WhatsApp
+                                </button>
+                            ` : ''}
+                            <button class="btn btn-secondary btn-xs" onclick="editStaffMobile('${e.id}')" title="Save / Update Mobile Number">
+                                <i class="fas fa-phone"></i> ${hasValidPhone ? 'Edit Mobile' : 'Add Mobile'}
+                            </button>
                             <button class="btn btn-xs ${e.isActive !== false ? 'btn-secondary' : 'btn-success'}" onclick="toggleEmployeeActive('${e.id}')" title="Change status">
                                 ${e.isActive !== false ? 'Deactivate' : 'Activate'}
                             </button>
@@ -2672,7 +3105,8 @@
                         </div>
                     </div>
                 </div>
-            `).join('') || '<div class="empty-state">No staff members found</div>';
+            `;
+            }).join('') || '<div class="empty-state">No staff members found</div>';
         }
 
         function toggleEmployeeActive(id) {
@@ -2685,6 +3119,214 @@
                 showToast(`Staff member ${emp.name} is now ${emp.isActive ? 'Active' : 'Inactive'}`, 'info');
                 if (cloudApiUrl) triggerManualSync();
             }
+        }
+
+        // =============================================
+        // STAFF WHATSAPP NOTIFICATION & BROADCAST SYSTEM
+        // =============================================
+        function openStaffBroadcastModal() {
+            document.getElementById('staffBroadcastModal').classList.add('show');
+            applyStaffMsgTemplate('notice');
+            renderStaffBroadcastList();
+        }
+
+        function closeStaffBroadcastModal() {
+            document.getElementById('staffBroadcastModal').classList.remove('show');
+        }
+
+        function applyStaffMsgTemplate(type) {
+            const b = currentOwner.businessName || 'KJR SEVA KENDRA';
+            let msg = '';
+            if (type === 'notice') {
+                msg = `*${b} — DAILY NOTICE*\nGood morning team! Please submit all customer work entries with accurate copy counts and payments on time today. Thank you!`;
+            } else if (type === 'payout') {
+                msg = `*${b} — WALLET PAYOUT UPDATE*\nHello team! Payouts and commission balances have been updated in your staff wallet passbook. Please check your app.`;
+            } else if (type === 'timing') {
+                msg = `*${b} — SHOP TIMING NOTICE*\nReminder: Seva Kendra opens at 9:00 AM sharp. Please arrive on time and mark your attendance in the app.`;
+            } else if (type === 'bonus') {
+                msg = `*${b} — PERFORMANCE UPDATE*\nGreat job this month, team! Commission bonuses are being calculated for top performers. Keep up the high speed service!`;
+            }
+            document.getElementById('staffBroadcastMsg').value = msg;
+        }
+
+        function renderStaffBroadcastList() {
+            const list = currentOwner.employees || [];
+            const container = document.getElementById('staffBroadcastList');
+            if (!container) return;
+            if (list.length === 0) {
+                container.innerHTML = '<div style="padding:14px;text-align:center;color:var(--text-light);font-size:12px;">No staff registered yet</div>';
+                return;
+            }
+
+            container.innerHTML = list.map(e => {
+                const cleanPhone = (e.mobile || '').replace(/\D/g, '').slice(-10);
+                const hasValidPhone = cleanPhone.length === 10;
+                return `
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-bottom:1px solid var(--border-color);background:var(--bg-card);border-radius:var(--radius-sm);flex-wrap:wrap;gap:6px;">
+                        <div>
+                            <strong>${e.name}</strong> (${e.designation || 'Staff'})
+                            <div style="font-size:11px;color:var(--text-secondary);">📱 ${hasValidPhone ? '+91 ' + cleanPhone : '<span style="color:#dc2626;font-weight:600;">No 10-digit Mobile</span>'}</div>
+                        </div>
+                        <div style="display:flex;gap:6px;">
+                            ${hasValidPhone ? `
+                                <button class="btn btn-success btn-xs" onclick="sendBroadcastToEmp('${cleanPhone}', '${e.name}')">
+                                    <i class="fab fa-whatsapp"></i> Send WhatsApp
+                                </button>
+                            ` : `
+                                <button class="btn btn-secondary btn-xs" onclick="editStaffMobile('${e.id}')">
+                                    <i class="fas fa-plus"></i> Add Mobile
+                                </button>
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function sendBroadcastToEmp(phone, name) {
+            let msg = document.getElementById('staffBroadcastMsg').value.trim();
+            if (!msg) {
+                msg = `Hello ${name}, notification from ${currentOwner.businessName || 'KJR SEVA KENDRA'}.`;
+            }
+            const cleanPhone = phone.length === 10 ? '91' + phone : phone;
+            window.open(`https://wa.me/${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function sendWhatsAppToStaff(empId) {
+            const emp = currentOwner.employees.find(e => e.id === empId);
+            if (!emp) return;
+            const cleanPhone = (emp.mobile || '').replace(/\D/g, '').slice(-10);
+            if (cleanPhone.length !== 10) {
+                return showToast('⚠️ Staff does not have a valid 10-digit mobile number', 'warning');
+            }
+            const msg = `Hello ${emp.name}, message from ${currentOwner.businessName || 'KJR SEVA KENDRA'}.`;
+            window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function editStaffMobile(empId) {
+            const emp = currentOwner.employees.find(e => e.id === empId);
+            if (!emp) return;
+            const currentMob = (emp.mobile || '').replace(/\D/g, '').slice(-10);
+            const newMob = prompt(`Enter 10-digit WhatsApp mobile number for ${emp.name}:`, currentMob);
+            if (newMob === null) return;
+            const cleanMob = newMob.replace(/\D/g, '').slice(0, 10);
+            if (cleanMob.length !== 10) {
+                return alert('❌ Mobile number must be exactly 10 digits!');
+            }
+            emp.mobile = cleanMob;
+            saveOwners();
+            renderEmployeeList();
+            if (document.getElementById('staffBroadcastModal').classList.contains('show')) {
+                renderStaffBroadcastList();
+            }
+            showToast(`✅ Updated ${emp.name}'s mobile to ${cleanMob}`, 'success');
+            if (cloudApiUrl) triggerManualSync();
+        }
+
+        function copyAllStaffMobiles() {
+            const list = currentOwner.employees || [];
+            const phones = list.map(e => (e.mobile || '').replace(/\D/g, '').slice(-10)).filter(p => p.length === 10);
+            if (phones.length === 0) {
+                return showToast('⚠️ No valid staff mobile numbers found', 'warning');
+            }
+            const copyText = phones.join(', ');
+            navigator.clipboard.writeText(copyText).then(() => {
+                showToast(`📋 Copied ${phones.length} staff mobile numbers to clipboard!`, 'success');
+            }).catch(() => {
+                prompt('Copy staff mobile numbers:', copyText);
+            });
+        }
+
+        function exportStaffContacts() {
+            const list = currentOwner.employees || [];
+            if (list.length === 0) return showToast('No staff registered to export', 'info');
+            let csv = "Name,Mobile,WhatsApp,Email,Department,Designation,Status\n";
+            list.forEach(e => {
+                const cleanPhone = (e.mobile || '').replace(/\D/g, '').slice(-10);
+                const wa = cleanPhone.length === 10 ? '91' + cleanPhone : '';
+                csv += `"${e.name}","${cleanPhone}","${wa}","${e.email}","${e.department || ''}","${e.designation || ''}","${e.isActive !== false ? 'Active' : 'Inactive'}"\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `Staff_Contacts_${getTodayStr()}.csv`;
+            a.click();
+            showToast('✅ Staff contacts CSV exported!', 'success');
+        }
+
+        function sendWhatsAppPaymentVoucher(payment, emp) {
+            const cleanPhone = (emp.mobile || '').replace(/\D/g, '').slice(-10);
+            if (cleanPhone.length !== 10) return;
+            const business = currentOwner.businessName || 'KJR SEVA KENDRA';
+            const msg = `*PAYMENT VOUCHER — ${business}*\n` +
+                        `👤 Staff: *${emp.name}*\n` +
+                        `💵 Amount Paid: *₹${parseFloat(payment.amount).toFixed(2)}*\n` +
+                        `📂 Type: ${payment.type}\n` +
+                        `💳 Mode: ${payment.mode}\n` +
+                        `🔖 Ref: ${payment.reference || '-'}\n` +
+                        `📅 Date: ${payment.date}\n` +
+                        `--------------------------\n` +
+                        `Your staff wallet balance has been updated. Thank you for your service!`;
+            window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function sendWhatsAppPaymentReceiptById(paymentId) {
+            const p = currentOwner.paymentRecords.find(x => String(x.id) === String(paymentId));
+            if (!p) return showToast('Payment record not found', 'error');
+            const emp = currentOwner.employees.find(e => e.id === p.employeeId);
+            if (!emp) return showToast('Staff record not found', 'error');
+            sendWhatsAppPaymentVoucher(p, emp);
+        }
+
+        function sendWhatsAppWorkApproval(entry, emp) {
+            const cleanPhone = (emp.mobile || '').replace(/\D/g, '').slice(-10);
+            if (cleanPhone.length !== 10) return;
+            const business = currentOwner.businessName || 'KJR SEVA KENDRA';
+            const msg = `*WORK APPROVAL — ${business}*\n` +
+                        `Hello *${emp.name}*,\n` +
+                        `Your completed customer work has been *APPROVED* by Admin:\n` +
+                        `📌 Service: *${entry.workName}*\n` +
+                        `💰 Wallet Credited: *₹${(entry.employeePayment || 0).toFixed(2)}*\n` +
+                        `👤 Customer: ${entry.customerName || 'Walk-in'}\n` +
+                        `📅 Date: ${entry.date}\n` +
+                        `--------------------------\n` +
+                        `Check your wallet passbook balance in your Staff Portal!`;
+            window.open(`https://wa.me/91${cleanPhone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function saveStaffSelfMobile() {
+            if (!currentEmployee) return;
+            const input = document.getElementById('staffSelfMobileInput');
+            const val = input ? input.value.trim() : '';
+            const clean = val.replace(/\D/g, '').slice(0, 10);
+            if (clean.length !== 10) {
+                return showToast('❌ Mobile number must be exactly 10 digits', 'error');
+            }
+            currentEmployee.mobile = clean;
+            const inOwner = currentOwner.employees.find(e => e.id === currentEmployee.id);
+            if (inOwner) inOwner.mobile = clean;
+            saveOwners();
+            initEmployeeDashboard();
+            showToast(`✅ WhatsApp number +91 ${clean} saved!`, 'success');
+            if (cloudApiUrl) triggerManualSync();
+        }
+
+        function editStaffSelfMobile() {
+            if (!currentEmployee) return;
+            const currentMob = (currentEmployee.mobile || '').replace(/\D/g, '').slice(-10);
+            const newMob = prompt('Enter your 10-digit WhatsApp mobile number:', currentMob);
+            if (newMob === null) return;
+            const clean = newMob.replace(/\D/g, '').slice(0, 10);
+            if (clean.length !== 10) {
+                return alert('❌ Mobile number must be exactly 10 digits!');
+            }
+            currentEmployee.mobile = clean;
+            const inOwner = currentOwner.employees.find(e => e.id === currentEmployee.id);
+            if (inOwner) inOwner.mobile = clean;
+            saveOwners();
+            initEmployeeDashboard();
+            showToast(`✅ WhatsApp number updated to +91 ${clean}`, 'success');
+            if (cloudApiUrl) triggerManualSync();
         }
 
         // =============================================
@@ -2725,6 +3367,30 @@
         function initEmployeeDashboard() {
             if (!currentEmployee) return;
 
+            const cleanPhone = (currentEmployee.mobile || '').replace(/\D/g, '').slice(-10);
+            const hasValidPhone = cleanPhone.length === 10;
+
+            const alertBanner = document.getElementById('empMobileAlertBanner');
+            if (alertBanner) {
+                if (!hasValidPhone) {
+                    alertBanner.style.display = 'block';
+                    alertBanner.innerHTML = `
+                        <div class="card" style="background:#fffbeb;border:2px solid #f59e0b;padding:12px 16px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                            <div>
+                                <strong style="color:#b45309;font-size:14px;"><i class="fab fa-whatsapp"></i> Add Your WhatsApp Mobile Number</strong>
+                                <p style="font-size:12px;color:#78350f;margin-top:2px;">Get instant WhatsApp alerts for work approvals, payout receipts, and shop notices.</p>
+                            </div>
+                            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                                <input type="tel" id="staffSelfMobileInput" placeholder="10-digit WhatsApp No" maxlength="10" inputmode="numeric" style="padding:8px 12px;border-radius:var(--radius-sm);border:2px solid #d97706;width:170px;font-size:14px;background:#ffffff;" oninput="this.value=this.value.replace(/\\D/g,'').slice(0,10)">
+                                <button class="btn btn-warning btn-sm" onclick="saveStaffSelfMobile()"><i class="fas fa-save"></i> Save Number</button>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    alertBanner.style.display = 'none';
+                }
+            }
+
             // Header profile card
             document.getElementById('empProfileDisplay').innerHTML = `
                 <div style="display:flex;align-items:center;gap:14px;">
@@ -2733,7 +3399,12 @@
                     </div>
                     <div>
                         <div style="font-size:16px;font-weight:800;">${currentEmployee.name}</div>
-                        <div style="font-size:11px;color:var(--text-secondary);">📧 ${currentEmployee.email} | 📱 ${currentEmployee.mobile}</div>
+                        <div style="font-size:11px;color:var(--text-secondary);">
+                            📧 ${currentEmployee.email} | 📱 ${hasValidPhone ? `<span style="color:#16a34a;font-weight:700;">+91 ${cleanPhone}</span>` : '<span style="color:#dc2626;font-weight:700;">No Mobile</span>'}
+                            <button class="btn btn-secondary btn-xs" onclick="editStaffSelfMobile()" style="margin-left:6px;padding:2px 8px;font-size:10px;" title="Update Mobile">
+                                <i class="fas fa-edit"></i> ${hasValidPhone ? 'Edit' : 'Add'}
+                            </button>
+                        </div>
                         <span class="badge badge-success" style="margin-top:4px;">🟢 Logged In As Staff</span>
                     </div>
                 </div>
