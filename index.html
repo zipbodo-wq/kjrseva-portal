@@ -1876,6 +1876,7 @@
                 const googleUser = JSON.parse(jsonPayload);
                 const googleEmail = googleUser.email.toLowerCase();
                 const googleName = googleUser.name;
+                const googlePhoto = googleUser.picture || null;
 
                 console.log('✅ Google Logged In:', googleEmail, googleName);
 
@@ -1885,6 +1886,7 @@
                     currentRole = 'owner';
                     currentOwner = owner;
                     currentOwner.email = googleEmail;
+                    if (googlePhoto) currentOwner.photoData = googlePhoto;
                     currentEmployee = null;
                     loginSuccess();
                     saveOwners();
@@ -1898,6 +1900,10 @@
                         currentRole = 'employee';
                         currentOwner = o;
                         currentEmployee = emp;
+                        if (!emp.photoData && googlePhoto) {
+                            emp.photoData = googlePhoto;
+                            saveOwners();
+                        }
                         loginSuccess();
                         return;
                     }
@@ -2425,26 +2431,57 @@
                 return;
             }
 
-            currentOwner.employees.push({
-                id: 'emp_' + Date.now(),
-                name: name,
-                email: email,
-                mobile: mobile,
-                passwordHash: hashPassword(pass || '1234'),
-                department: document.getElementById('regDepartment').value,
-                designation: document.getElementById('regDesignation').value || 'Staff',
-                joiningDate: document.getElementById('regJoiningDate').value || getTodayStr(),
-                isActive: true
-            });
+            const photoInput = document.getElementById('regPhotoFile');
+            const photoFile = photoInput && photoInput.files ? photoInput.files[0] : null;
 
-            saveOwners();
-            updateOwnerSelectors();
-            renderEmployeeList();
-            showToast(`✅ Staff member ${name} registered!`, 'success');
-            document.getElementById('regMsg').innerHTML = '<span style="color:#16a34a;">✅ Staff Registered Successfully!</span>';
-            ['regFullName', 'regEmail', 'regMobile', 'regPassword'].forEach(id => document.getElementById(id).value = '');
+            const saveEmpRecord = (photoUrl) => {
+                currentOwner.employees.push({
+                    id: 'emp_' + Date.now(),
+                    name: name,
+                    email: email,
+                    mobile: mobile,
+                    passwordHash: hashPassword(pass || '1234'),
+                    department: document.getElementById('regDepartment').value,
+                    designation: document.getElementById('regDesignation').value || 'Staff',
+                    joiningDate: document.getElementById('regJoiningDate').value || getTodayStr(),
+                    photoData: photoUrl || null,
+                    isActive: true
+                });
 
-            if (cloudApiUrl) triggerManualSync();
+                saveOwners();
+                updateOwnerSelectors();
+                renderEmployeeList();
+                showToast(`✅ Staff member ${name} registered!`, 'success');
+                document.getElementById('regMsg').innerHTML = '<span style="color:#16a34a;">✅ Staff Registered Successfully!</span>';
+                ['regFullName', 'regEmail', 'regMobile', 'regPassword', 'regPhotoFile'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.value = '';
+                });
+
+                if (cloudApiUrl) triggerManualSync();
+            };
+
+            if (photoFile) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const max = 200;
+                        let w = img.width, h = img.height;
+                        if (w > h) { if (w > max) { h *= max / w; w = max; } }
+                        else { if (h > max) { w *= max / h; h = max; } }
+                        canvas.width = w; canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        saveEmpRecord(canvas.toDataURL('image/jpeg', 0.8));
+                    };
+                    img.src = evt.target.result;
+                };
+                reader.readAsDataURL(photoFile);
+            } else {
+                saveEmpRecord(null);
+            }
         }
 
         function renderEmployeeList() {
@@ -2453,7 +2490,7 @@
                 <div class="employee-card">
                     <div style="display:flex;justify-content:space-between;align-items:center;">
                         <div style="display:flex;gap:12px;align-items:center;">
-                            <div class="avatar">${e.name.charAt(0)}</div>
+                            <div class="avatar">${e.photoData ? `<img src="${e.photoData}" alt="${e.name}">` : e.name.charAt(0)}</div>
                             <div>
                                 <strong style="font-size:15px;">${e.name}</strong>
                                 <div style="font-size:11px;color:var(--text-secondary);">📧 ${e.email} | 📱 ${e.mobile}</div>
@@ -2479,8 +2516,8 @@
             // Header profile card
             document.getElementById('empProfileDisplay').innerHTML = `
                 <div style="display:flex;align-items:center;gap:14px;">
-                    <div style="width:52px;height:52px;border-radius:50%;background:var(--secondary);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;">
-                        ${currentEmployee.name.charAt(0)}
+                    <div style="width:52px;height:52px;border-radius:50%;background:var(--secondary);color:white;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:700;overflow:hidden;">
+                        ${currentEmployee.photoData ? `<img src="${currentEmployee.photoData}" style="width:100%;height:100%;object-fit:cover;">` : currentEmployee.name.charAt(0)}
                     </div>
                     <div>
                         <div style="font-size:16px;font-weight:800;">${currentEmployee.name}</div>
