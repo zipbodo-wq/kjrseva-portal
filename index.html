@@ -405,9 +405,10 @@
         }
         .quick-action-btn .icon { font-size: 22px; display: block; margin-bottom: 4px; }
 
-        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-        .form-grid-3col { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; }
-        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; box-sizing: border-box; }
+        .form-grid-3col { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; width: 100%; box-sizing: border-box; }
+        .col-span-2 { grid-column: span 2; }
+        .emp-profile-header-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; width: 100%; box-sizing: border-box; }
         
         .input-group { display: flex; flex-direction: column; gap: 5px; }
         .input-group label {
@@ -756,6 +757,18 @@
         }
 
         @media (max-width: 768px) {
+            /* 0. Prevent Horizontal Page Panning/Overflow on Mobile */
+            html, body {
+                width: 100% !important;
+                max-width: 100vw !important;
+                overflow-x: hidden !important;
+                position: relative !important;
+            }
+            body {
+                display: block !important;
+                min-height: 100vh !important;
+            }
+
             /* 1. Mobile Off-Canvas Drawer (No 72px screen waste!) */
             .sidebar {
                 width: 270px !important;
@@ -787,7 +800,27 @@
             .sidebar.collapsed.visible ~ .main-content {
                 margin-left: 0 !important;
                 width: 100% !important;
-                padding: 10px 12px !important;
+                max-width: 100vw !important;
+                min-width: 0 !important;
+                overflow-x: hidden !important;
+                padding: 10px 8px !important;
+                box-sizing: border-box !important;
+            }
+
+            #ownerDashboard, #employeeDashboard {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                overflow-x: hidden !important;
+                box-sizing: border-box !important;
+            }
+
+            .emp-profile-header-grid {
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
 
             /* 3. Top Header Mobile Optimization */
@@ -798,6 +831,8 @@
                 padding: 10px 12px !important;
                 gap: 10px !important;
                 border-radius: var(--radius-sm) !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             .top-header .page-title {
                 font-size: 14px !important;
@@ -813,36 +848,80 @@
 
             /* 4. Touch-Friendly Cards & Grids */
             .card {
-                padding: 14px !important;
+                padding: 14px 12px !important;
                 border-radius: var(--radius-md) !important;
-                margin-bottom: 14px !important;
+                margin-bottom: 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            .card-header {
+                padding-bottom: 8px !important;
+                margin-bottom: 10px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .card-header h3 {
+                font-size: 14px !important;
+                line-height: 1.3 !important;
             }
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 8px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             .stat-card {
-                padding: 12px 8px !important;
+                padding: 10px 8px !important;
+                box-sizing: border-box !important;
             }
             .stat-card .stat-value {
-                font-size: 18px !important;
+                font-size: 16px !important;
+            }
+            .stat-card .stat-label {
+                font-size: 10px !important;
             }
             .quick-actions-grid {
                 grid-template-columns: repeat(2, 1fr) !important;
                 gap: 6px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .quick-action-btn {
+                padding: 8px 4px !important;
+                font-size: 11px !important;
             }
 
-            /* 5. Mobile Form Fields (Prevents iOS auto-zoom) */
+            /* 5. Mobile Form Fields (100% Full Width Stacking) */
             .form-grid, .form-grid-3col {
-                grid-template-columns: 1fr !important;
+                display: flex !important;
+                flex-direction: column !important;
                 gap: 10px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
-            .input-group[style*="grid-column"] {
-                grid-column: span 1 !important;
+            .input-group,
+            .col-span-2,
+            .input-group[style*="grid-column"],
+            .submit-work-group,
+            .input-group[style*="justify-content"] {
+                grid-column: auto !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: stretch !important;
+                justify-content: stretch !important;
             }
             input, select, textarea {
                 font-size: 16px !important; /* Critical for iOS Safari */
-                padding: 10px 12px !important;
+                padding: 9px 12px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
 
             /* 6. Touch-Friendly Button Sizes & Layout on Mobile */
@@ -851,31 +930,34 @@
                 font-size: 14px !important;
                 padding: 10px 16px !important;
                 touch-action: manipulation;
+                box-sizing: border-box !important;
             }
             .btn-xs {
-                padding: 7px 12px !important;
-                font-size: 0.78rem !important;
-                min-height: 38px !important;
-                min-width: 38px !important;
+                padding: 6px 10px !important;
+                font-size: 0.75rem !important;
+                min-height: 36px !important;
+                min-width: 36px !important;
                 display: inline-flex !important;
                 align-items: center !important;
                 justify-content: center !important;
             }
             .btn-sm {
-                padding: 8px 14px !important;
-                font-size: 0.82rem !important;
-                min-height: 40px !important;
+                padding: 8px 12px !important;
+                font-size: 0.8rem !important;
+                min-height: 38px !important;
                 display: inline-flex !important;
                 align-items: center !important;
             }
             #empSubmitWorkBtn, #ownerAddWorkBtn, #registerEmpBtn, #recordPaymentBtn {
                 width: 100% !important;
-                min-height: 50px !important;
-                font-size: 16px !important;
+                min-height: 48px !important;
+                font-size: 15px !important;
                 font-weight: 700 !important;
                 justify-content: center !important;
-                margin-top: 10px !important;
+                margin-top: 8px !important;
+                box-sizing: border-box !important;
             }
+
             /* Smooth Horizontal Touch-Scroll for Filter Bar on Mobile */
             .filter-bar {
                 display: flex !important;
@@ -883,65 +965,147 @@
                 overflow-x: auto !important;
                 -webkit-overflow-scrolling: touch !important;
                 gap: 6px !important;
-                padding: 8px 2px !important;
-                scrollbar-width: none;
+                padding: 6px 2px !important;
+                scrollbar-width: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
-            .filter-bar::-webkit-scrollbar { display: none; }
+            .filter-bar::-webkit-scrollbar { display: none !important; }
             .filter-btn {
                 flex-shrink: 0 !important;
-                min-height: 38px !important;
-                padding: 8px 14px !important;
-                font-size: 13px !important;
+                min-height: 36px !important;
+                padding: 6px 12px !important;
+                font-size: 12px !important;
             }
 
-            /* Touch-Optimized Catalog Selector & Category Pills for Mobile */
-            .service-touch-card {
-                min-height: 52px !important;
-                padding: 12px 14px !important;
-                border-radius: var(--radius-sm) !important;
+            /* 7. Touch-Optimized Catalog Selector & Category Pills for Mobile */
+            .service-select-wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                position: relative !important;
             }
-            .service-touch-card .card-title {
-                font-size: 14px !important;
+            .service-category-pills {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                gap: 6px !important;
+                padding: 4px 0 !important;
+                margin: 6px 0 !important;
+                scrollbar-width: none !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
+            .service-category-pills::-webkit-scrollbar { display: none !important; }
             .cat-pill {
-                min-height: 38px !important;
-                padding: 7px 14px !important;
-                font-size: 13px !important;
+                flex-shrink: 0 !important;
+                min-height: 36px !important;
+                padding: 6px 12px !important;
+                font-size: 12px !important;
                 font-weight: 600 !important;
             }
             .service-picker-touch-list {
-                max-height: 250px !important;
-                gap: 8px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                max-height: 230px !important;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                padding: 6px !important;
+                gap: 6px !important;
+                border: 2px solid var(--border-color) !important;
+            }
+            .service-touch-card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                min-height: 48px !important;
+                padding: 8px 10px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 6px !important;
+                border-radius: var(--radius-sm) !important;
+            }
+            .service-touch-card .card-left {
+                flex: 1 1 auto !important;
+                min-width: 0 !important;
+                overflow: hidden !important;
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 2px !important;
+            }
+            .service-touch-card .card-title {
+                font-size: 13px !important;
+                font-weight: 700 !important;
+                line-height: 1.25 !important;
+                white-space: normal !important;
+                word-break: break-word !important;
+            }
+            .service-touch-card .card-cat {
+                font-size: 10px !important;
+                color: var(--text-light) !important;
+            }
+            .service-touch-card .card-right {
+                display: flex !important;
+                align-items: center !important;
+                gap: 4px !important;
+                flex-shrink: 0 !important;
+                flex-wrap: wrap !important;
+                justify-content: flex-end !important;
+            }
+            .service-touch-card .card-right .badge {
+                padding: 3px 6px !important;
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                white-space: nowrap !important;
             }
             .selected-service-banner {
-                padding: 12px 14px !important;
-                font-size: 13px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                padding: 10px 12px !important;
+                font-size: 12px !important;
                 flex-direction: column !important;
                 align-items: flex-start !important;
                 gap: 4px !important;
+                border-radius: var(--radius-sm) !important;
+                word-break: break-word !important;
             }
 
-            /* 7. Mobile Table Touch-Scroll Indicator */
+            /* 8. Mobile Table Touch-Scroll Indicator */
             .table-wrap {
-                -webkit-overflow-scrolling: touch;
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                box-sizing: border-box !important;
                 border-radius: var(--radius-sm) !important;
             }
 
-            /* 8. Mobile Modals */
+            /* 9. Mobile Modals */
             .modal-content {
                 width: 95% !important;
                 padding: 18px 14px !important;
                 max-height: 90vh !important;
+                box-sizing: border-box !important;
             }
 
-            /* 9. Mobile Login Screen */
+            /* 10. Mobile Login Screen */
             .login-wrapper {
                 margin: 10px auto !important;
                 border-radius: var(--radius-md) !important;
                 min-height: auto !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             .login-right {
                 padding: 24px 16px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
         }
 
@@ -1101,11 +1265,14 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px;
+            gap: 8px;
             transition: all 0.15s ease;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
             min-height: 48px;
+            width: 100%;
+            max-width: 100%;
+            box-sizing: border-box;
         }
         .service-touch-card:hover {
             border-color: var(--secondary);
@@ -1124,11 +1291,16 @@
             flex-direction: column;
             gap: 2px;
             text-align: left;
+            flex: 1 1 auto;
+            min-width: 0;
+            overflow: hidden;
         }
         .service-touch-card .card-title {
             font-weight: 700;
             font-size: 0.88rem;
             color: var(--text-primary);
+            white-space: normal;
+            word-break: break-word;
         }
         .service-touch-card .card-cat {
             font-size: 0.65rem;
@@ -1139,8 +1311,13 @@
         .service-touch-card .card-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+        .service-touch-card .card-right .badge {
+            white-space: nowrap;
         }
         .selected-service-banner {
             margin-top: 8px;
@@ -1446,7 +1623,7 @@
                 <div class="card-header"><h3><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Record New Customer Service Work</h3></div>
                 <div class="form-grid">
                     <div class="input-group"><label>Staff Member <span class="required">*</span></label><select id="ownerEmpSelect"></select></div>
-                    <div class="input-group" style="grid-column:span 2;">
+                    <div class="input-group col-span-2">
                         <label>Service (Odisha Cyber / CSC Catalog) <span class="required">*</span></label>
                         <div class="service-select-wrapper">
                             <div style="position:relative;">
@@ -1481,7 +1658,7 @@
                         <input type="number" id="manualPriceInput" value="0" min="0" step="0.01">
                     </div>
                     <div class="input-group"><label>Customer Payment Received (₹)</label><input type="number" id="ownerCustPayment" value="0" min="0" step="0.01"></div>
-                    <div class="input-group" style="display:flex;justify-content:flex-end;align-items:flex-end;">
+                    <div class="input-group submit-work-group" style="display:flex;justify-content:flex-end;align-items:flex-end;">
                         <button id="ownerAddWorkBtn" class="btn btn-primary" style="padding:10px 32px;"><i class="fas fa-plus"></i> Save Work Entry</button>
                     </div>
                 </div>
@@ -1653,14 +1830,14 @@
         <!-- ===== EMPLOYEE / STAFF DASHBOARD ===== -->
         <div id="employeeDashboard">
             <div id="empMobileAlertBanner" style="display:none;margin-bottom:16px;"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+            <div class="emp-profile-header-grid">
                 <div class="card" id="empProfileDisplay"></div>
                 <div class="card" id="empOwnerInfo"></div>
             </div>
 
             <!-- Quick Actions for Employee -->
             <div class="card" style="background:var(--primary);color:white;border:none;">
-                <div class="quick-actions-grid" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr));">
+                <div class="quick-actions-grid">
                     <div class="quick-action-btn" onclick="document.getElementById('empAddWork').scrollIntoView()"><span class="icon">➕</span> Add Work</div>
                     <div class="quick-action-btn" onclick="openWalletPassbook()"><span class="icon">💳</span> Wallet Passbook</div>
                     <div class="quick-action-btn" onclick="openEmployeeAttendance()"><span class="icon">⏰</span> Attendance</div>
@@ -1672,7 +1849,7 @@
             <div class="card" id="empAddWork">
                 <div class="card-header"><h3><i class="fas fa-plus-circle" style="color:var(--secondary);"></i> Register Completed Customer Work</h3></div>
                 <div class="form-grid">
-                    <div class="input-group" style="grid-column:span 2;">
+                    <div class="input-group col-span-2">
                         <label>Select Service from Catalog <span class="required">*</span></label>
                         <div class="service-select-wrapper">
                             <div style="position:relative;">
@@ -1702,7 +1879,7 @@
                     <div class="input-group"><label>Print Copies</label><input type="number" id="empPrintCopies" value="0" min="0"></div>
                     <div class="input-group"><label>Scan Copies</label><input type="number" id="empScanCopies" value="0" min="0"></div>
                     <div class="input-group"><label>Customer Payment Received (₹)</label><input type="number" id="empCustPayment" value="0" min="0" step="0.01"></div>
-                    <div class="input-group" style="display:flex;justify-content:flex-end;align-items:flex-end;">
+                    <div class="input-group submit-work-group" style="display:flex;justify-content:flex-end;align-items:flex-end;">
                         <button id="empSubmitWorkBtn" class="btn btn-success" style="padding:10px 32px;"><i class="fas fa-check"></i> Submit For Approval</button>
                     </div>
                 </div>
@@ -2533,7 +2710,7 @@
                     <div class="card-right">
                         <span class="badge badge-success">₹${s.customerPrice}</span>
                         <span class="badge badge-info">Pay: ₹${s.employeePayment}</span>
-                        ${isSelected ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                        ${isSelected ? '<span class="badge touch-check-badge" style="background:#2c9f6e;color:white;font-weight:700;padding:2px 6px;"><i class="fas fa-check"></i></span>' : ''}
                     </div>
                 </div>
             `;
@@ -2545,7 +2722,7 @@
                     </div>
                     <div class="card-right">
                         <span class="badge badge-warning">Custom</span>
-                        ${sel.value === 'OTHER' ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                        ${sel.value === 'OTHER' ? '<span class="badge touch-check-badge" style="background:#2c9f6e;color:white;font-weight:700;padding:2px 6px;"><i class="fas fa-check"></i></span>' : ''}
                     </div>
                 </div>
             `;
@@ -2561,11 +2738,11 @@
                 const title = c.querySelector('.card-title')?.textContent.trim() || '';
                 const isSelected = (title === name || (name === 'OTHER' && title.includes('OTHER')));
                 c.classList.toggle('selected', isSelected);
-                let checkIcon = c.querySelector('.fa-check-circle');
-                if (isSelected && !checkIcon) {
-                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>');
-                } else if (!isSelected && checkIcon) {
-                    checkIcon.remove();
+                let checkBadge = c.querySelector('.touch-check-badge');
+                if (isSelected && !checkBadge) {
+                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<span class="badge touch-check-badge" style="background:#2c9f6e;color:white;font-weight:700;padding:2px 6px;"><i class="fas fa-check"></i></span>');
+                } else if (!isSelected && checkBadge) {
+                    checkBadge.remove();
                 }
             });
             const manualGroup = document.getElementById('manualPriceGroup');
@@ -2619,7 +2796,7 @@
                     <div class="card-right">
                         <span class="badge badge-success">₹${s.customerPrice}</span>
                         <span class="badge badge-info">Earn: ₹${s.employeePayment}</span>
-                        ${isSelected ? '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>' : ''}
+                        ${isSelected ? '<span class="badge touch-check-badge" style="background:#2c9f6e;color:white;font-weight:700;padding:2px 6px;"><i class="fas fa-check"></i></span>' : ''}
                     </div>
                 </div>
             `;
@@ -2636,11 +2813,11 @@
                 const title = c.querySelector('.card-title')?.textContent.trim() || '';
                 const isSelected = (title === name);
                 c.classList.toggle('selected', isSelected);
-                let checkIcon = c.querySelector('.fa-check-circle');
-                if (isSelected && !checkIcon) {
-                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<i class="fas fa-check-circle" style="color:var(--secondary);font-size:16px;margin-left:4px;"></i>');
-                } else if (!isSelected && checkIcon) {
-                    checkIcon.remove();
+                let checkBadge = c.querySelector('.touch-check-badge');
+                if (isSelected && !checkBadge) {
+                    c.querySelector('.card-right').insertAdjacentHTML('beforeend', '<span class="badge touch-check-badge" style="background:#2c9f6e;color:white;font-weight:700;padding:2px 6px;"><i class="fas fa-check"></i></span>');
+                } else if (!isSelected && checkBadge) {
+                    checkBadge.remove();
                 }
             });
             updateEmpServiceBanner();
